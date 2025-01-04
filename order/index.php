@@ -60,7 +60,7 @@ include "../component/sidebar.php";
                         <tr>
                             <th>#</th>
                             <th>Order ID</th>
-                            <th>Customer ID</th>
+                            <th>Customer Name</th>
                             <th>Order Date</th>
                             <th>Status</th>
                             <th>Total Price</th>
@@ -86,8 +86,8 @@ include "../component/sidebar.php";
                         }
 
                         $whereClause = count($whereConditions) > 0 ? "WHERE " . implode(" AND ", $whereConditions) : "";
-                        $countQuery = "SELECT COUNT(*) as total FROM `tbl_orders` $whereClause";
-                        $selectQuery = "SELECT * FROM `tbl_orders` $whereClause LIMIT $limit OFFSET $offset";
+                        $countQuery = "SELECT COUNT(*) as total FROM `tbl_orders` INNER JOIN tbl_customer ON tbl_customer.customer_id = tbl_orders.customer_id $whereClause";
+                        $selectQuery = "SELECT * FROM `tbl_orders` INNER JOIN tbl_customer ON tbl_customer.customer_id = tbl_orders.customer_id $whereClause LIMIT $limit OFFSET $offset";
 
                         $countResult = mysqli_query($conn, $countQuery);
                         $totalRecords = mysqli_fetch_assoc($countResult)['total'];
@@ -99,7 +99,7 @@ include "../component/sidebar.php";
                             <tr>
                                 <td><?= $count += 1 ?></td>
                                 <td><?= $data["order_id"] ?></td>
-                                <td><?= $data["customer_id"] ?></td>
+                                <td><?= $data["customer_name"] ?></td>
                                 <td><?= date("d/m/Y h:i A", strtotime($data["order_date"])) ?></td>
 
                                 <td><?= $data['order_status'] == 1 ? "Pending" : ($data['order_status'] == 2 ? "Out For Delivery" : "Delivered") ?></td>
