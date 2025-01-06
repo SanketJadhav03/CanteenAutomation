@@ -1,13 +1,11 @@
 <?php
-header("Content-Type: application/json"); // Set content type to JSON
-include "../config/connection.php"; // Include the database connection file
-
-$response = []; // Array to store API response
-
-// Fetch all cart items from the database
-$sql = "SELECT c.*, p.* 
+header("Content-Type: application/json");  
+include "../config/connection.php";  
+$response = [];   
+$sql = "SELECT * 
         FROM tbl_cart_masters AS c 
-        INNER JOIN tbl_product AS p ON c.cart_product_id = p.product_id";
+        INNER JOIN tbl_product AS p ON c.cart_product_id = p.product_id
+        INNER JOIN tbl_category ON tbl_category.category_id = p.category_id ";
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
@@ -23,8 +21,6 @@ if ($result->num_rows > 0) {
     http_response_code(404); // Not found
     $response['status'] = 'error';
     $response['message'] = 'No cart items found.';
-}
-
-// Return the JSON response
+} 
 echo json_encode($response);
 ?>
