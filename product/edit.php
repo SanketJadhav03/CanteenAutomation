@@ -55,7 +55,7 @@ if (isset($_POST["product_update"])) {
         product_name = '$product_name',
         product_description = '$product_description',
         product_price = '$product_price',
-        product_stock = '$product_stock', 
+        -- product_stock = '$product_stock', 
         category_id = '$category_id',
         product_image = '$image_path',
         product_dis = '$product_dis',
@@ -114,10 +114,10 @@ if (isset($_POST["product_update"])) {
                         <label for="product_dis_value">Discount Value</label>
                         <input type="number" step="0.01" class="form-control font-weight-bold" name="product_dis_value" id="product_dis_value" value="<?= $product['product_dis_value'] ?>" readonly>
                     </div>
-                    <div class="col-4 mt-3">
+                    <!-- <div class="col-4 mt-3">
                         <label for="product_stock">Product Stock <span class="text-danger">*</span></label>
                         <input type="number" class="form-control font-weight-bold" name="product_stock" id="product_stock" value="<?= $product['product_stock'] ?>" required>
-                    </div>
+                    </div> -->
                     <div class="col-6 mt-3">
                         <label for="product_image">Product Image</label>
                         <input type="file" class="form-control font-weight-bold" name="product_image" id="product_image" accept="image/*">
