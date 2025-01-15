@@ -2,7 +2,14 @@
 include "../config/connection.php";
 
 // Set response format to JSON
-header("Content-Type: application/json");
+header("Content-Type: application/json"); 
+
+// Function to generate a simple token
+function generateToken($email, $id) {
+    $key = "your_simple_secret_key"; // Replace with your secure secret key
+    $time = time();
+    return base64_encode($email . '|' . $id . '|' . $time . '|' . hash_hmac('sha256', $email . $id . $time, $key));
+}
 
 // Check if the request method is POST
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
@@ -30,10 +37,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
             // Verify the password
             if (password_verify($customer_password, $customer['customer_password'])) {
-                // If login is successful, return success message with customer data (excluding password)
+                // Generate a simple token
+                $token = generateToken($customer_email, $customer['customer_id']);
+
+                // If login is successful, return success message with token and customer data (excluding password)
                 unset($customer['customer_password']);
                 echo json_encode([
                     "success" => "Login successful!",
+                    "token" => $token,
                     "customer" => $customer
                 ]);
             } else {
