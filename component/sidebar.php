@@ -64,6 +64,12 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
+                            <a href="<?= $base_url ?>slider/index.php" class="nav-link">
+                                <i class="fas fa-long-arrow-alt-right nav-icon"></i>
+                                <p>Slider</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a href="<?= $base_url ?>blog/index.php" class="nav-link">
                                 <i class="fas fa-long-arrow-alt-right nav-icon"></i>
                                 <p>Blog's</p>
