@@ -24,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Prepare the SQL statement
-    $sql = "INSERT INTO tbl_contact (contact_name, contact_email, contact_phone, contact_message, created_at) 
+    $sql = "INSERT INTO tbl_contacts (contact_name, contact_email, contact_phone, contact_message, created_at) 
             VALUES (?, ?, ?, ?, NOW())";
 
     if ($stmt = $conn->prepare($sql)) {
