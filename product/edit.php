@@ -20,6 +20,7 @@ if (isset($_POST["product_update"])) {
     $category_id = mysqli_real_escape_string($conn, $_POST["category_id"]);
     $product_dis = mysqli_real_escape_string($conn, $_POST["product_dis"]);
     $product_dis_value = mysqli_real_escape_string($conn, $_POST["product_dis_value"]);
+    $product_status = mysqli_real_escape_string($conn, $_POST["product_status"]);
     $product_image = $_FILES["product_image"]["name"];
     $product_image_temp = $_FILES["product_image"]["tmp_name"];
     
@@ -57,9 +58,10 @@ if (isset($_POST["product_update"])) {
         category_id = '$category_id',
         product_image = '$image_path',
         product_dis = '$product_dis',
-        product_dis_value = '$product_dis_value'
+        product_dis_value = '$product_dis_value',
+        product_status = '$product_status'
         WHERE product_id = $product_id";
-    
+
     if (mysqli_query($conn, $updateQuery)) {
         $_SESSION["success"] = "Product Updated Successfully!";
         echo "<script>window.location = 'index.php';</script>";
@@ -82,9 +84,9 @@ if (isset($_POST["product_update"])) {
             </div>
             <div class="card-body">
                 <div class="row">
-                    <div class="col-4">
+                    <div class="col-6">
                         <label for="product_name">Product Name <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control font-weight-bold" name="product_name" id="product_name" value="<?= $product['product_name'] ?>" required>
+                        <input type="text" value="<?= $product['product_name'] ?>" placeholder="Product Name" class="form-control font-weight-bold" name="product_name" id="product_name" required>
                     </div>
                     <div class="col-4">
                         <label for="category_id">Category <span class="text-danger">*</span></label>
@@ -94,38 +96,45 @@ if (isset($_POST["product_update"])) {
                             $categoryQuery = "SELECT * FROM tbl_category WHERE category_status = 1";
                             $categoryResult = mysqli_query($conn, $categoryQuery);
                             while ($category = mysqli_fetch_assoc($categoryResult)) {
-                                $selected = ($category['category_id'] == $product['category_id']) ? 'selected' : '';
+                                $selected = $product['category_id'] == $category['category_id'] ? "selected" : "";
                                 echo "<option value='{$category['category_id']}' $selected>{$category['category_name']}</option>";
                             }
                             ?>
                         </select>
                     </div>
-                    <div class="col-4">
+                    <div class="col-2">
+                        <label for="product_status">Food Type <span class="text-danger">*</span></label>
+                        <select name="product_status" id="product_status" class="form-control font-weight-bold" required>
+                            <option value="">Select Food Type</option>
+                            <option value="1" <?= $product['product_status'] == 1 ? "selected" : "" ?>>Veg</option>
+                            <option value="2" <?= $product['product_status'] == 2 ? "selected" : "" ?>>Non-Veg</option>
+                        </select>
+                    </div>
+                    <div class="col-3 mt-3">
                         <label for="product_price">Product Price <span class="text-danger">*</span></label>
-                        <input type="number" step="0.01" class="form-control font-weight-bold" name="product_price" id="product_price" value="<?= $product['product_price'] ?>" required>
+                        <input type="number" step="0.01" value="<?= $product['product_price'] ?>" placeholder="Product Price" class="form-control font-weight-bold" name="product_price" id="product_price" required oninput="calculateDiscountValue()">
                     </div>
-                    <div class="col-4 mt-3">
-                        <label for="product_dis">Discount (%)</label>
-                        <input type="number" class="form-control font-weight-bold" name="product_dis" id="product_dis" value="<?= $product['product_dis'] ?>">
+                    <div class="col-3 mt-3">
+                        <label for="product_dis">Product Discount (%)</label>
+                        <input type="number" value="<?= $product['product_dis'] ?>" placeholder="Discount Percentage" class="form-control font-weight-bold" name="product_dis" id="product_dis" oninput="calculateDiscountValue()">
                     </div>
-                    <div class="col-4 mt-3">
+                    <div class="col-3 mt-3">
                         <label for="product_dis_value">Discount Value</label>
-                        <input type="number" step="0.01" class="form-control font-weight-bold" name="product_dis_value" id="product_dis_value" value="<?= $product['product_dis_value'] ?>" readonly>
-                    </div> 
-                    <div class="col-4 mt-3">
+                        <input type="number" step="0.01" value="<?= $product['product_dis_value'] ?>" placeholder="Discount Value" class="form-control font-weight-bold" name="product_dis_value" id="product_dis_value" readonly>
+                    </div>
+                    <div class="col-3 mt-3">
                         <label for="product_image">Product Image</label>
                         <input type="file" class="form-control font-weight-bold" name="product_image" id="product_image" accept="image/*">
-                        <?php if ($product['product_image']) { ?>
-                            <small class="d-block mt-2">Current Image: <img src="../uploads/products/<?= $product['product_image'] ?>" width="100px" alt="Product Image"></small>
-                        <?php } ?>
+                        <?php if (!empty($product['product_image'])): ?>
+                            <img src="../uploads/products/<?= $product['product_image'] ?>" alt="Product Image" width="100" class="mt-2">
+                        <?php endif; ?>
                     </div>
                     <div class="col-12 mt-3">
                         <label for="product_description">Product Description</label>
-                        <textarea name="product_description" id="product_description" rows="3" class="form-control font-weight-bold"><?= $product['product_description'] ?></textarea>
+                        <textarea rows="10" name="product_description" id="product_description" class="form-control font-weight-bold" placeholder="Enter product description"><?= $product['product_description'] ?></textarea>
                     </div>
                 </div>
             </div>
-
             <div class="card-footer">
                 <div class="d-flex justify-content-end">
                     <button name="product_update" type="submit" class="btn btn-primary shadow font-weight-bold">
@@ -142,15 +151,16 @@ if (isset($_POST["product_update"])) {
 </div>
 
 <script>
-    // Auto-calculate the discount value based on price and discount percentage
-    document.getElementById('product_price').addEventListener('input', calculateDiscountValue);
-    document.getElementById('product_dis').addEventListener('input', calculateDiscountValue);
-
     function calculateDiscountValue() {
-        let price = parseFloat(document.getElementById('product_price').value) || 0;
-        let discount = parseFloat(document.getElementById('product_dis').value) || 0;
-        let discountValue = (price * discount) / 100;
-        document.getElementById('product_dis_value').value = discountValue.toFixed(2);
+        const price = parseFloat(document.getElementById("product_price").value);
+        const discountPercentage = parseFloat(document.getElementById("product_dis").value);
+        
+        if (!isNaN(price) && !isNaN(discountPercentage)) {
+            const discountValue = (price * discountPercentage) / 100;
+            document.getElementById("product_dis_value").value = discountValue.toFixed(2);
+        } else {
+            document.getElementById("product_dis_value").value = '';
+        }
     }
 </script>
 

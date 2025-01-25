@@ -5,22 +5,18 @@ include "../config/connection.php";
 // Get product_id from the URL
 $product_id = $_GET["product_id"];
 
-// Fetch the current status of the product
-$statusQuery = "SELECT product_status FROM `tbl_product` WHERE `product_id` = '$product_id'";
-$statusResult = mysqli_query($conn, $statusQuery);
-$product = mysqli_fetch_assoc($statusResult);
+// Use a prepared statement to delete the product
+$stmt = $conn->prepare("DELETE FROM `tbl_product` WHERE `product_id` = ?");
+$stmt->bind_param("i", $product_id);
 
-// Toggle the status
-$new_status = ($product['product_status'] == 1) ? 2 : 1;  // If 1, change to 2; if 2, change to 1
-
-// Update query to change the status
-$updateQuery = "UPDATE `tbl_product` SET `product_status` = '$new_status' WHERE `product_id` = '$product_id'";
-
-if (mysqli_query($conn, $updateQuery)) {
-    $_SESSION["success"] = "Product status updated successfully!";
+if ($stmt->execute()) {
+    $_SESSION["success"] = "Product deleted successfully!";
     echo "<script>window.location = 'index.php';</script>";
 } else {
-    $_SESSION["error"] = "Error updating product status: " . mysqli_error($conn);
+    $_SESSION["error"] = "Error deleting product: " . $stmt->error;
     echo "<script>window.location = 'index.php';</script>";
 }
+
+$stmt->close();
+$conn->close();
 ?>
