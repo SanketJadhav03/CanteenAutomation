@@ -10,6 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Validate required fields
     if (
         empty($data['customer_id']) || 
+        empty($data['total_price']) || 
         empty($data['order_date']) || 
         empty($data['order_status']) || 
         empty($data['shipping_address']) || 
@@ -24,6 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Extract order data
     $customer_id = $data['customer_id'];
+    $total_price = $data['total_price'];
     $order_date = $data['order_date'];
     $order_status = $data['order_status'];
     $shipping_address = $data['shipping_address'];
@@ -36,10 +38,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     try {
         // Insert into tbl_orders
-        $orderQuery = "INSERT INTO tbl_orders (customer_id, order_date, order_status, shipping_address, payment_method, payment_status, created_at) 
-                       VALUES (?, ?, ?, ?, ?, ?, NOW())";
+        $orderQuery = "INSERT INTO tbl_orders (customer_id,total_price, order_date, order_status, shipping_address, payment_method, payment_status, created_at) 
+                       VALUES (?, ?, ?, ?, ?, ?, ?, NOW())";
         $stmt = $conn->prepare($orderQuery);
-        $stmt->bind_param("isssss", $customer_id, $order_date, $order_status, $shipping_address, $payment_method, $payment_status);
+        $stmt->bind_param("isssss", $customer_id, $total_price, $order_date, $order_status, $shipping_address, $payment_method, $payment_status);
         $stmt->execute();
         $order_id = $stmt->insert_id; // Get the inserted order ID
 
