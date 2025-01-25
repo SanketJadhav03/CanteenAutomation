@@ -53,11 +53,7 @@ if (!$product) {
                                 <tr>
                                     <td class="font-weight-bold">Category:</td>
                                     <td><?= htmlspecialchars($product['category_name']) ?></td>
-                                </tr>
-                                <tr>
-                                    <td class="font-weight-bold">Stock:</td>
-                                    <td><?= htmlspecialchars($product['product_stock']) ?> units</td>
-                                </tr>
+                                </tr> 
                                 <tr>
                                     <td class="font-weight-bold">Price:</td>
                                     <td>₹ <?= htmlspecialchars($product['product_price']) ?></td>

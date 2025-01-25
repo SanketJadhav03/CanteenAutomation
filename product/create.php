@@ -93,25 +93,21 @@ if (isset($_POST["product_create"])) {
                         <label for="product_price">Product Price <span class="text-danger">*</span></label>
                         <input type="number" step="0.01" placeholder="Product Price" class="form-control font-weight-bold" name="product_price" id="product_price" required oninput="calculateDiscountValue()">
                     </div>
-                    <div class="col-6 mt-3">
+                    <div class="col-4 mt-3">
                         <label for="product_dis">Product Discount (%)</label>
                         <input type="number" placeholder="Discount Percentage" class="form-control font-weight-bold" name="product_dis" id="product_dis" oninput="calculateDiscountValue()">
                     </div>
-                    <div class="col-6 mt-3">
+                    <div class="col-4 mt-3">
                         <label for="product_dis_value">Discount Value</label>
                         <input type="number" step="0.01" placeholder="Discount Value" class="form-control font-weight-bold" name="product_dis_value" id="product_dis_value" readonly>
-                    </div>
-                    <div class="col-6 mt-3">
-                        <label for="product_stock">Product Stock <span class="text-danger">*</span></label>
-                        <input type="number" placeholder="Product Stock" class="form-control font-weight-bold" name="product_stock" id="product_stock" required>
-                    </div>
-                    <div class="col-6 mt-3">
+                    </div> 
+                    <div class="col-4 mt-3">
                         <label for="product_image">Product Image</label>
                         <input type="file" class="form-control font-weight-bold" name="product_image" id="product_image" accept="image/*">
                     </div>
                     <div class="col-12 mt-3">
                         <label for="product_description">Product Description</label>
-                        <textarea name="product_description" id="product_description" rows="3" class="form-control font-weight-bold" placeholder="Enter product description"></textarea>
+                        <textarea rows="10" name="product_description" id="product_description" rows="3" class="form-control font-weight-bold" placeholder="Enter product description"></textarea>
                     </div>
                 </div>
             </div>
