@@ -8,16 +8,16 @@ if (isset($_POST["product_create"])) {
     // Sanitize and get form data
     $product_name = mysqli_real_escape_string($conn, $_POST["product_name"]);
     $product_description = mysqli_real_escape_string($conn, $_POST["product_description"]);
-    $product_price = mysqli_real_escape_string($conn, $_POST["product_price"]);
-    $product_stock = mysqli_real_escape_string($conn, $_POST["product_stock"]); 
+    $product_price = mysqli_real_escape_string($conn, $_POST["product_price"]); 
     $category_id = mysqli_real_escape_string($conn, $_POST["category_id"]);
     $product_dis = mysqli_real_escape_string($conn, $_POST["product_dis"]);
     $product_dis_value = mysqli_real_escape_string($conn, $_POST["product_dis_value"]);
+    $product_status = mysqli_real_escape_string($conn, $_POST["product_status"]);
     $product_image = $_FILES["product_image"]["name"];
     $product_image_temp = $_FILES["product_image"]["tmp_name"];
 
     // Validate required fields
-    if (empty($product_name) || empty($product_price) || empty($product_stock) || empty($category_id)) {
+    if (empty($product_name) || empty($product_price) || empty($category_id) || empty($product_status)) {
         $_SESSION["error"] = "Please fill in all required fields!";
     } else {
         // Handle image upload if a file is uploaded
@@ -47,8 +47,8 @@ if (isset($_POST["product_create"])) {
         }
 
         // Insert query with new fields
-        $insertQuery = "INSERT INTO tbl_product (product_name, product_description, product_price, product_stock, category_id, product_image, product_dis, product_dis_value) 
-                        VALUES ('$product_name', '$product_description', '$product_price', '$product_stock', '$category_id', '$image_path', '$product_dis', '$product_dis_value')";
+        $insertQuery = "INSERT INTO tbl_product (product_name, product_description, product_price, category_id, product_image, product_dis, product_dis_value, product_status) 
+                        VALUES ('$product_name', '$product_description', '$product_price', '$category_id', '$image_path', '$product_dis', '$product_dis_value', '$product_status')";
         if (mysqli_query($conn, $insertQuery)) {
             $_SESSION["success"] = "Product Created Successfully!";
             echo "<script>window.location = 'index.php';</script>";
@@ -72,7 +72,7 @@ if (isset($_POST["product_create"])) {
             </div>
             <div class="card-body">
                 <div class="row">
-                    <div class="col-4">
+                    <div class="col-6">
                         <label for="product_name">Product Name <span class="text-danger">*</span></label>
                         <input type="text" placeholder="Product Name" class="form-control font-weight-bold" name="product_name" id="product_name" required>
                     </div>
@@ -89,19 +89,28 @@ if (isset($_POST["product_create"])) {
                             ?>
                         </select>
                     </div>
-                    <div class="col-4">
+                    <div class="col-2  ">
+                        <label for="product_status">Food Type <span class="text-danger">*</span></label>
+                        <select name="product_status" id="product_status" class="form-control font-weight-bold" required>
+                            <option value="">Select Food Type</option>
+                            <option value="1">Veg</option>
+                            <option value="2">Non-Veg</option>
+                        </select>
+                    </div>
+                    <div class="col-3 mt-3">
                         <label for="product_price">Product Price <span class="text-danger">*</span></label>
                         <input type="number" step="0.01" placeholder="Product Price" class="form-control font-weight-bold" name="product_price" id="product_price" required oninput="calculateDiscountValue()">
                     </div>
-                    <div class="col-4 mt-3">
+                    <div class="col-3 mt-3">
                         <label for="product_dis">Product Discount (%)</label>
                         <input type="number" placeholder="Discount Percentage" class="form-control font-weight-bold" name="product_dis" id="product_dis" oninput="calculateDiscountValue()">
                     </div>
-                    <div class="col-4 mt-3">
+                    <div class="col-3 mt-3">
                         <label for="product_dis_value">Discount Value</label>
                         <input type="number" step="0.01" placeholder="Discount Value" class="form-control font-weight-bold" name="product_dis_value" id="product_dis_value" readonly>
-                    </div> 
-                    <div class="col-4 mt-3">
+                    </div>
+                  
+                    <div class="col-3 mt-3">
                         <label for="product_image">Product Image</label>
                         <input type="file" class="form-control font-weight-bold" name="product_image" id="product_image" accept="image/*">
                     </div>
@@ -139,6 +148,5 @@ if (isset($_POST["product_create"])) {
         }
     }
 </script>
- 
 
 <?php include "../component/footer.php"; ?>

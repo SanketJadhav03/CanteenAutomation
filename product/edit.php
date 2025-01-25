@@ -16,8 +16,7 @@ if (isset($_POST["product_update"])) {
     // Sanitize and get form data
     $product_name = mysqli_real_escape_string($conn, $_POST["product_name"]);
     $product_description = mysqli_real_escape_string($conn, $_POST["product_description"]);
-    $product_price = mysqli_real_escape_string($conn, $_POST["product_price"]);
-    $product_stock = mysqli_real_escape_string($conn, $_POST["product_stock"]); 
+    $product_price = mysqli_real_escape_string($conn, $_POST["product_price"]); 
     $category_id = mysqli_real_escape_string($conn, $_POST["category_id"]);
     $product_dis = mysqli_real_escape_string($conn, $_POST["product_dis"]);
     $product_dis_value = mysqli_real_escape_string($conn, $_POST["product_dis_value"]);
@@ -54,8 +53,7 @@ if (isset($_POST["product_update"])) {
     $updateQuery = "UPDATE tbl_product SET 
         product_name = '$product_name',
         product_description = '$product_description',
-        product_price = '$product_price',
-        -- product_stock = '$product_stock', 
+        product_price = '$product_price', 
         category_id = '$category_id',
         product_image = '$image_path',
         product_dis = '$product_dis',

@@ -63,6 +63,10 @@ if (!$product) {
                                     <td><?= htmlspecialchars($product['product_dis']) ?>  %  </td>
                                 </tr>
                                 <tr>
+                                    <td class="font-weight-bold">Discount Price:</td>
+                                    <td>₹ <?= htmlspecialchars($product['product_dis_value']) ?>   </td>
+                                </tr>
+                                <tr>
                                     <td class="font-weight-bold">Final Price:</td>
                                     <td>₹ <?= htmlspecialchars($product['product_price']-$product['product_dis_value']) ?>  </td>
                                 </tr>
@@ -71,10 +75,10 @@ if (!$product) {
                                     <td><?= nl2br(htmlspecialchars($product['product_description'])) ?></td>
                                 </tr>
                                 <tr> 
-                                    <td class="font-weight-bold">Status:</td>
+                                    <td class="font-weight-bold">Food Type</td>
                                     <td>
                                         <span class="badge <?= $product['product_status'] ? 'badge-success' : 'badge-danger' ?>">
-                                            <?= $product['product_status'] ? 'Active' : 'Inactive' ?></span>
+                                            <?= $product['product_status'] == 1 ? 'Veg' : 'Non-Veg' ?></span>
                                     </td>
                                 </tr>
                                 <tr>

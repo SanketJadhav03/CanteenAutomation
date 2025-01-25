@@ -50,7 +50,7 @@ include "../component/sidebar.php";
                         <th>Product Name</th>
                         <th>Category</th>
                         <th>Price</th>
-                        <th>Status</th> 
+                        <th>Food Type</th> 
                         <th>Action</th>
                     </tr>
                     <?php
@@ -87,7 +87,7 @@ include "../component/sidebar.php";
                             <td><?= $data["product_name"] ?></td>
                             <td><?= $data["category_name"] ?></td> <!-- Category Name from the JOIN -->
                             <td><?= $data["product_price"] - $data["product_dis_value"] ?></td>
-                            <td><?= $data["product_status"] == 1 ? 'Active' : 'Inactive' ?></td> 
+                            <td><?= $data["product_status"] == 1 ? 'Veg' : 'Non-Veg' ?></td> 
                             <td>
                                 <a href="view.php?product_id=<?= $data["product_id"] ?>" class="btn btn-sm shadow btn-success">
                                     <i class="fa fa-eye"></i>
