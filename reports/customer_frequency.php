@@ -56,8 +56,8 @@ include "../component/sidebar.php";
                         ?>
                             <tr>
                                 <td><?= $count += 1 ?></td>
-                                <td><?= $data["customer_name"] ?></td>
-                                <td><?= $data["total_orders"] ?></td>
+                                <td><?= htmlspecialchars($data["customer_name"]) ?></td>
+                                <td><?= htmlspecialchars($data["total_orders"]) ?></td>
                                 <td><?= date("d/m/Y", strtotime($data["last_order_date"])) ?></td>
                             </tr>
                         <?php
@@ -82,9 +82,9 @@ include "../component/sidebar.php";
 
         <div class="card-footer">
             <div class="d-flex justify-content-center">
-                <button class="btn btn-info font-weight-bold">
+                <a href="downloadCustomerFrequencyReport.php" class="btn btn-info font-weight-bold">
                     <i class="fas fa-download"></i> &nbsp;Download Report
-                </button>
+                </a>
             </div>
         </div>
     </div>

@@ -52,12 +52,7 @@ include "../component/sidebar.php";
                             <i class="fas fa-search"></i> &nbsp;Find
                         </button>
                     </div>
-                    <div class="col-2 mt-2 font-weight-bold">
-                        <br>
-                        <a href="export_sales_report.php?<?= http_build_query($_GET); ?>" class="shadow btn w-100 btn-success font-weight-bold">
-                            <i class="fas fa-file-excel"></i> &nbsp;Export
-                        </a>
-                    </div>
+                    
                 </div>
             </form>
         </div>
