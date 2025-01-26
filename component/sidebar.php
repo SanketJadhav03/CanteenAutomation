@@ -62,6 +62,12 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
+                            <a href="<?= $base_url ?>reports/product_ratings_report.php" class="nav-link">
+                                <i class="fas fa-long-arrow-alt-right nav-icon"></i>
+                                <p>Customer Ratings</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a href="<?= $base_url ?>reports/sales_report.php" class="nav-link">
                                 <i class="fas fa-long-arrow-alt-right nav-icon"></i>
                                 <p>Sales Report</p>
