@@ -48,13 +48,21 @@ $reviews_query = "
     SELECT 
         p.product_name, 
         ROUND(AVG(r.rating), 1) AS avg_rating, 
-        GROUP_CONCAT(CONCAT('Rating: ', r.rating, ' / 5 | Review: ', r.review_rating, ' | Date: ', DATE_FORMAT(r.created_at, '%d/%m/%Y')) SEPARATOR '<br>') AS reviews
+        GROUP_CONCAT(
+            CONCAT(
+                c.customer_name, 
+                ' | Rating: ', r.rating, 
+                ' / 5 | Review: ', r.review_rating, 
+                ' | Date: ', DATE_FORMAT(r.created_at, '%d/%m/%Y')
+            ) SEPARATOR '<br>') AS reviews
     FROM tbl_ratings r
     JOIN tbl_product p ON r.product_id = p.product_id
+    JOIN tbl_customer c ON r.customer_id = c.customer_id
     GROUP BY r.product_id
-    ORDER BY AVG(r.rating) DESC
+    ORDER BY avg_rating DESC
     LIMIT 5";
 $reviews_result = mysqli_query($conn, $reviews_query);
+
 ?>
 
 <!-- Content Wrapper. Contains page content -->
@@ -63,8 +71,8 @@ $reviews_result = mysqli_query($conn, $reviews_query);
   <div class="content-header">
     <div class="container-fluid">
       <div class="row mb-2">
-        <div class="col-12 text-">
-          <h1 class="h1 font-weight-bold">Dashboard</h1>
+        <div class="col-12 card-header">
+          <h1 class="font-weight-bold">Canteen Automation Dashboard</h1>
         </div>
       </div>
     </div>
@@ -126,31 +134,64 @@ $reviews_result = mysqli_query($conn, $reviews_query);
             </div>
           </div>
         </div>
-
         <div class="col-6">
-          <div class="card shadow-lg">
-            <div class="card-header ">
-              <h5 class="font-weight-bold"><i class="fas fa-star"></i> Latest Product Ratings and Reviews</h3>
+          <div class="card shadow-lg border-0 rounded-3">
+            <div class="card-header rounded-top">
+              <h5 class="font-weight-bold mb-0">
+                <i class="fas fa-star text-warning"></i> Latest Product Ratings and Reviews
+              </h5>
             </div>
-            <div class="card-body">
+            <div class="card-body" style="background-color: #f9f9f9;">
               <?php if (mysqli_num_rows($reviews_result) > 0) : ?>
-                <ul class="list-group">
+                <ul class="list-group list-group-flush">
                   <?php while ($review = mysqli_fetch_assoc($reviews_result)) : ?>
-                    <li class="list-group-item">
-                      <h5 class="text-info">
-                        <i class="fas fa-box"></i> <?= htmlspecialchars($review['product_name']) ?>
-                      </h5>
-                      <p><strong>Average Rating:</strong> <span class="text-warning"><i class="fas fa-star"></i> <?= htmlspecialchars($review['avg_rating']) ?> / 5</span></p>
-                      <hr>
-                      <p><strong>Customer Reviews:</strong></p>
-                      <div style="padding-left: 10px; color: #333;">
-                        <?= $review['reviews'] ?>
+                    <li class="list-group-item border-0 shadow-sm p-4 rounded" style="background-color: #ffffff;">
+                      <div class="d-flex justify-content-between">
+                        <h5 class="text-info mb-1">
+                          <i class="fas fa-box  mr-1"></i> <?= htmlspecialchars($review['product_name']) ?>
+                        </h5>
+                        <span class="text-warning  ">
+                          <i class="fas fa-star  "></i> <?= htmlspecialchars($review['avg_rating']) ?> / 5
+                        </span>
+                      </div>
+                      <hr class="my-2">
+                      <p class="mb-2"><strong> Reviews:</strong></p>
+                      <div style="padding-left: 10px; color: #555; line-height: 1.6;">
+                        <?php
+                        $reviews = explode('<br>', $review['reviews']);
+                        foreach ($reviews as $single_review) :
+                          list($customer_name, $rating_info, $review_text) = explode(' | ', $single_review, 3);
+                          preg_match('/Rating: (\d+)/', $rating_info, $rating_matches);
+                          $rating_value = isset($rating_matches[1]) ? $rating_matches[1] : 0;
+                        ?>
+                          <div class="review-item mb-3">
+                            <div class="d-flex align-items-center mb-1">
+                              <i class="fas fa-user-circle mr-2"></i><span class="font-weight-bold"><?= htmlspecialchars($customer_name) ?></span>
+                            </div>
+                            <div>
+                              <span class="text-warning">
+                                <?php
+                                for ($i = 0; $i < $rating_value; $i++) {
+                                  echo '<i class="fas fa-star"></i>';
+                                }
+                                for ($i = $rating_value; $i < 5; $i++) {
+                                  echo '<i class="far fa-star"></i>';
+                                }
+                                ?>
+                              </span>
+                            </div>
+                            <p class="mb-1"><?= htmlspecialchars($review_text) ?></p>
+                          </div>
+                        <?php endforeach; ?>
                       </div>
                     </li>
                   <?php endwhile; ?>
                 </ul>
               <?php else : ?>
-                <p class="text-center">No ratings or reviews available.</p>
+                <div class="text-center py-3">
+                  <i class="fas fa-info-circle fa-2x text-muted"></i>
+                  <p class="mt-2">No ratings or reviews available.</p>
+                </div>
               <?php endif; ?>
             </div>
           </div>

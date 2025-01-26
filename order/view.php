@@ -12,7 +12,9 @@ if (!$order_id) {
 }
 
 // Fetch order details
-$query = "SELECT * FROM tbl_orders WHERE order_id = ?";
+$query = "SELECT * FROM tbl_orders 
+INNER JOIN tbl_customer ON tbl_customer.customer_id = tbl_orders.customer_id
+WHERE order_id = ?";
 $stmt = $conn->prepare($query);
 $stmt->bind_param('i', $order_id);
 $stmt->execute();
@@ -74,7 +76,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         </tr>
                         <tr>
                             <th>Customer ID</th>
-                            <td><?= htmlspecialchars($order['customer_id']) ?></td>
+                            <td><?= htmlspecialchars($order['customer_name']) ?></td>
                         </tr>
                         <tr>
                             <th>Order Date</th>

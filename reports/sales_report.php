@@ -8,7 +8,7 @@ include "../component/sidebar.php";
     <div class="card">
         <div class="card-header">
             <div class="text-center p-3">
-                <h3 class="font-weight-bold">Order Management</h3>
+                <h3 class="font-weight-bold">Sales Report</h3>
             </div>
             <form action="">
                 <div class="row justify-content-end">
@@ -19,7 +19,6 @@ include "../component/sidebar.php";
                             <option value="1" <?= isset($_GET["order_status"]) && $_GET["order_status"] == "1" ? "selected" : "" ?>>Pending</option>
                             <option value="2" <?= isset($_GET["order_status"]) && $_GET["order_status"] == "2" ? "selected" : "" ?>>Out For Delivery</option>
                             <option value="3" <?= isset($_GET["order_status"]) && $_GET["order_status"] == "3" ? "selected" : "" ?>>Delivered</option>
-                            <!-- <option value="4" <?= isset($_GET["order_status"]) && $_GET["order_status"] == "4" ? "selected" : "" ?>>Cancelled</option> -->
                         </select>
                     </div>
                     <div class="col-2 font-weight-bold">
@@ -63,10 +62,9 @@ include "../component/sidebar.php";
                             <th>Customer Name</th>
                             <th>Order Date</th>
                             <th>Status</th>
-                            <th>Total Price</th>
+                            <th>Total Sales</th>
                             <th>Payment Method</th>
                             <th>Payment Status</th>
-                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -105,14 +103,6 @@ include "../component/sidebar.php";
                                 <td>₹<?= number_format($data["total_price"], 2) ?></td>
                                 <td><?= $data["payment_method"] == 1 ? "Cash On Delivery" : "Online" ?></td>
                                 <td><?= $data["payment_status"] == "1" ? '<span class="text-success">Paid</span>' : '<span class="text-danger">Unpaid</span>' ?></td>
-                                <td>
-                                    <a href="view.php?order_id=<?= $data["order_id"] ?>" class="btn btn-sm shadow btn-info">
-                                        <i class="fa fa-eye"></i>
-                                    </a>
-                                    <a href="delete.php?order_id=<?= $data["order_id"] ?>" onclick="if(confirm('Are you sure want to delete this order?')){return true}else{return false;}" class="btn btn-sm shadow btn-danger">
-                                        <i class="fa fa-trash"></i>
-                                    </a>
-                                </td>
                             </tr>
                         <?php
                         }
@@ -121,8 +111,8 @@ include "../component/sidebar.php";
                         if ($count == 0) {
                         ?>
                             <tr>
-                                <td colspan="10" class="font-weight-bold text-center">
-                                    <span class="text-danger">No Orders Found.</span>
+                                <td colspan="8" class="font-weight-bold text-center">
+                                    <span class="text-danger">No Sales Found.</span>
                                 </td>
                             </tr>
                         <?php
