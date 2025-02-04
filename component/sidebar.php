@@ -46,12 +46,12 @@
                         <p>Orders</p>
                     </a>
                 </li>
-                <!-- <li class="nav-item">
-                    <a href="<?= $base_url ?>offer/index.php" class="nav-link">
+                <li class="nav-item">
+                    <a href="<?= $base_url ?>feedback/index.php" class="nav-link">
                         <i class="nav-icon fas fa-gift"></i>
-                        <p>Offers</p>
+                        <p>Feedbacks</p>
                     </a>
-                </li>  -->
+                </li> 
                 <li class="nav-item">
                     <a href="<?= $base_url ?>#" class="nav-link">
                         <i class="fas fa-chart-bar nav-icon"></i>
@@ -103,12 +103,12 @@
                                 <p>Slider</p>
                             </a>
                         </li>
-                        <li class="nav-item">
+                        <!-- <li class="nav-item">
                             <a href="<?= $base_url ?>blog/index.php" class="nav-link">
                                 <i class="fas fa-long-arrow-alt-right nav-icon"></i>
                                 <p>Blog's</p>
                             </a>
-                        </li>
+                        </li> -->
                         <li class="nav-item">
                             <a href="<?= $base_url ?>contact/index.php" class="nav-link">
                                 <i class="fas fa-long-arrow-alt-right nav-icon"></i>

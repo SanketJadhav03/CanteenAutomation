@@ -60,7 +60,7 @@ $reviews_query = "
     JOIN tbl_customer c ON r.customer_id = c.customer_id
     GROUP BY r.product_id
     ORDER BY avg_rating DESC
-    LIMIT 5";
+    LIMIT 1";
 $reviews_result = mysqli_query($conn, $reviews_query);
 
 ?>
@@ -135,7 +135,7 @@ $reviews_result = mysqli_query($conn, $reviews_query);
           </div>
         </div>
         <div class="col-6">
-          <div class="card shadow-lg border-0 rounded-3">
+          <div class="card  -lg border-0 rounded-3">
             <div class="card-header rounded-top">
               <h5 class="font-weight-bold mb-0">
                 <i class="fas fa-star text-warning"></i> Latest Product Ratings and Reviews
@@ -197,6 +197,9 @@ $reviews_result = mysqli_query($conn, $reviews_query);
           </div>
         </div>
 
+      </div>
+      <div>
+        
       </div>
 
     </div>
