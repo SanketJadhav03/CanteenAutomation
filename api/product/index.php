@@ -16,6 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             p.product_dis, 
             p.product_dis_value,
             p.product_status, 
+            c.category_id,
             c.category_name, 
             COALESCE(ROUND(AVG(r.rating), 1), 0) AS avg_rating,
             GROUP_CONCAT(
