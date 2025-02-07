@@ -95,14 +95,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class="col-md-6">
                     <table class="table table-bordered">
                         <tr>
-                            <th>Payment Method</th>
-                            <td><?= htmlspecialchars($order['payment_method']) == "1" ? "Cash On Delivery" : "Online" ?></td>
-                        </tr>
-                        <tr>
-                            <th>Payment Status</th>
-                            <td><?= htmlspecialchars($order['payment_status']) == 1 ? "<span class='text-success font-weight-bold'>Paid</span>"  : "<span class='text-danger font-weight-bold'>Unpaid</span>" ?></td>
-                        </tr>
-                        <tr>
                             <th>Order Status</th>
                             <td><?= htmlspecialchars($order['order_status']) == 1 ? "Pending" : ($order['order_status'] == 2 ? "Out For Delivery" : "Delivered") ?></td>
                         </tr>
@@ -119,17 +111,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
 
             <form method="POST" class="p-3 bg-light rounded shadow-sm">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="payment_status">Payment Status</label>
-                            <select name="payment_status" id="payment_status" class="form-control">
-                                <option value="0" <?= $order['payment_status'] === 0 ? 'selected' : '' ?>>Unpaid</option>
-                                <option value="1" <?= $order['payment_status'] === 1 ? 'selected' : '' ?>>Paid</option>
- 
-                            </select>
-                        </div>
-                    </div>
+                <div class="row text-center">
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="order_status">Order Status</label>
@@ -144,7 +126,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class="text-right mt-3">
                     <button type="submit" class="btn btn-primary shadow">Update</button>
                     <a href="index.php" class="mx-2 btn btn-success shadow"> <i class="fas fa-arrow-left"></i>
-                    Back</a>
+                        Back</a>
                 </div>
             </form>
         </div>
