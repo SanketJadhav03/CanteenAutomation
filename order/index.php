@@ -22,14 +22,7 @@ include "../component/sidebar.php";
                             <!-- <option value="4" <?= isset($_GET["order_status"]) && $_GET["order_status"] == "4" ? "selected" : "" ?>>Cancelled</option> -->
                         </select>
                     </div>
-                    <div class="col-2 font-weight-bold">
-                        Payment Status
-                        <select name="payment_status" class="form-control">
-                            <option value="">All</option>
-                            <option value="1" <?= isset($_GET["payment_status"]) && $_GET["payment_status"] == "1" ? "selected" : "" ?>>Paid</option>
-                            <option value="0" <?= isset($_GET["payment_status"]) && $_GET["payment_status"] == "2" ? "selected" : "" ?>>Unpaid</option>
-                        </select>
-                    </div>
+                    
                     <div class="col-2 font-weight-bold">
                         <br>
                         <button type="submit" class="shadow btn w-100 btn-info font-weight-bold">
@@ -62,10 +55,8 @@ include "../component/sidebar.php";
                             <th>Order ID</th>
                             <th>Customer Name</th>
                             <th>Order Date</th>
-                            <th>Status</th>
-                            <th>Total Price</th>
-                            <th>Payment Method</th>
-                            <th>Payment Status</th>
+                            <th>Total Price</th> 
+                            <th>Order Status</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -101,11 +92,9 @@ include "../component/sidebar.php";
                                 <td><?= $data["customer_name"] ?></td>
                                 <td><?= date("d/m/Y h:i A", strtotime($data["order_date"])) ?></td>
 
-                                <td><?= $data['order_status'] == 1 ? "Pending" : ($data['order_status'] == 2 ? "Out For Delivery" : "Delivered") ?></td>
                                 <td>₹<?= number_format($data["total_price"], 2) ?></td>
-                                <td><?= $data["payment_method"] == 1 ? "Cash On Delivery" : "Online" ?></td>
-                                <td><?= $data["payment_status"] == "1" ? '<span class="text-success">Paid</span>' : '<span class="text-danger">Unpaid</span>' ?></td>
-                                <td>
+                                <td><?= $data['order_status'] == 1 ? "Pending" : ($data['order_status'] == 2 ? "Out For Delivery" : "Delivered") ?></td>
+                                 <td>
                                     <a href="view.php?order_id=<?= $data["order_id"] ?>" class="btn btn-sm shadow btn-info">
                                         <i class="fa fa-eye"></i>
                                     </a>
