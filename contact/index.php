@@ -43,8 +43,8 @@ include "../component/sidebar.php";
                     $offset = ($page - 1) * $limit;
 
                     // Count query to get total number of records
-                    $countQuery = "SELECT COUNT(*) as total FROM tbl_contact";
-                    $selectQuery = "SELECT * FROM tbl_contact LIMIT $limit OFFSET $offset";
+                    $countQuery = "SELECT COUNT(*) as total FROM tbl_contacts";
+                    $selectQuery = "SELECT * FROM tbl_contacts LIMIT $limit OFFSET $offset";
 
                     // Get total records
                     $countResult = mysqli_query($conn, $countQuery);
@@ -62,7 +62,7 @@ include "../component/sidebar.php";
                             <td><?= $data["contact_phone"] ?></td>
                             <td><?= $data["contact_message"] ?></td>
                             <td>
-                                <a href="delete.php?contact_id=<?= $data["contact_id"] ?>" onclick="if(confirm('Are you sure want to delete this contact?')){return true}else{return false;}" class="btn btn-sm shadow btn-danger">
+                                <a href="delete.php?contact_id=<?= $data["id"] ?>" onclick="if(confirm('Are you sure want to delete this contact?')){return true}else{return false;}" class="btn btn-sm shadow btn-danger">
                                     <i class="fa fa-trash"></i>
                                 </a>
                             </td>
