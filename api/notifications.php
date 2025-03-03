@@ -41,7 +41,7 @@ function getAllNotifications() {
     
     $notifications = [];
     while ($row = mysqli_fetch_assoc($result)) {
-        $notifications[] = $row;
+        $notifications[] = $row;    
     }
     
     echo json_encode($notifications);
